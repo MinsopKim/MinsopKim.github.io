@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--
+  ▼ 링크 미리보기(LinkedIn, 카카오톡 등)에 쓰이는 정보입니다.
+    미리보기 봇은 JavaScript를 실행하지 않으므로 이 부분은 여기서 직접 고쳐야 합니다.
+-->
+<title>김민섭 | Portfolio</title>
+<meta name="description" content="고려대학교 독어독문학과 김민섭의 포트폴리오. 영화 〈해리 포터와 마법사의 돌〉 Neo4j 지식그래프 프로젝트와 이력을 소개합니다.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="김민섭 | Portfolio">
+<meta property="og:description" content="문학 텍스트를 지식그래프로 구조화하는 독어독문학도, 김민섭의 프로젝트와 이력.">
+<meta property="og:locale" content="ko_KR">
+<!-- GitHub Pages 주소가 생기면 아래 주석을 풀고 주소를 넣으세요 -->
+<!-- <meta property="og:url" content="https://아이디.github.io/"> -->
+<meta name="twitter:card" content="summary">
+<meta name="theme-color" content="#F6F4EF">
+
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@600;700&display=swap">
+<script src="https://unpkg.com/vis-network@9.1.9/standalone/umd/vis-network.min.js" defer></script>
+
+<style>
+/* ==========================================================
+   디자인 토큰 — 색상·폰트·여백은 여기만 바꾸면 전체에 반영됩니다.
+   ========================================================== */
+:root{
+  --bg:#F6F4EF;          /* 페이지 배경 */
+  --surface:#FFFFFF;     /* 카드 배경 */
+  --ink:#16181D;         /* 본문 글자 */
+  --muted:#575C69;       /* 보조 글자 (배경 대비 6:1 이상) */
+  --line:#E2DED4;        /* 구분선 */
+  --accent:#B0432A;      /* 강조색 */
+  --accent-soft:#F3E3DC; /* 강조색 옅은 배경 */
+  --radius:14px;
+  --shadow:0 1px 2px rgba(22,24,29,.04),0 6px 20px rgba(22,24,29,.06);
+  --font:"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --font-display:"Noto Serif KR",Georgia,serif;
+  --header-h:64px;
+  --maxw:1080px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word}
+a{color:inherit}
+img{max-width:100%;display:block}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:6px}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+
+/* ---------- 헤더 ---------- */
+.site-header{position:fixed;inset:0 0 auto 0;height:var(--header-h);background:rgba(246,244,239,.88);backdrop-filter:saturate(160%) blur(10px);-webkit-backdrop-filter:saturate(160%) blur(10px);border-bottom:1px solid var(--line);z-index:50}
+.site-header .wrap{height:100%;display:flex;align-items:center;justify-content:space-between}
+.home-btn{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:700;letter-spacing:-.01em}
+.home-btn .mark{width:32px;height:32px;border-radius:9px;background:var(--ink);color:var(--bg);display:grid;place-items:center;font-family:var(--font-display);font-size:15px}
+.home-btn .en{color:var(--muted);font-weight:500;font-size:14px}
+.nav-list{display:flex;gap:4px;list-style:none;margin:0;padding:0}
+.nav-list a{display:block;padding:8px 14px;border-radius:999px;text-decoration:none;font-weight:500;font-size:15px;color:var(--muted);transition:background .15s,color .15s}
+.nav-list a:hover{color:var(--ink);background:rgba(22,24,29,.05)}
+.nav-list a[aria-current="page"]{color:var(--surface);background:var(--ink)}
+.menu-toggle{display:none;width:42px;height:42px;border:1px solid var(--line);border-radius:10px;background:var(--surface);cursor:pointer;align-items:center;justify-content:center}
+.menu-toggle span,.menu-toggle span::before,.menu-toggle span::after{display:block;width:18px;height:2px;background:var(--ink);border-radius:2px;position:relative;transition:transform .2s}
+.menu-toggle span::before,.menu-toggle span::after{content:"";position:absolute;left:0}
+.menu-toggle span::before{top:-6px}.menu-toggle span::after{top:6px}
+.menu-toggle[aria-expanded="true"] span{background:transparent}
+.menu-toggle[aria-expanded="true"] span::before{transform:translateY(6px) rotate(45deg)}
+.menu-toggle[aria-expanded="true"] span::after{transform:translateY(-6px) rotate(-45deg)}
+
+/* ---------- 공통 ---------- */
+main{padding-top:var(--header-h);min-height:calc(100vh - 80px)}
+.page{display:none;padding:56px 0 88px;animation:fade .3s ease}
+.page.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.eyebrow{font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin:0 0 10px}
+h1,h2,h3{letter-spacing:-.02em;line-height:1.3;margin:0}
+.page-title{font-family:var(--font-display);font-size:clamp(28px,4vw,40px);margin-bottom:12px}
+.page-lead{color:var(--muted);max-width:640px;margin:0 0 40px}
+.section{margin-top:64px}
+.section-title{font-size:20px;margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.section-title::before{content:"";width:18px;height:2px;background:var(--accent)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+.tag{display:inline-block;padding:3px 10px;border-radius:999px;background:var(--bg);border:1px solid var(--line);font-size:13px;font-weight:500;color:var(--ink)}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+
+/* ---------- 자기소개 ---------- */
+.hero{display:grid;grid-template-columns:auto 1fr;gap:40px;align-items:center}
+.avatar{width:148px;height:148px;border-radius:50%;background:var(--ink);color:var(--bg);display:grid;place-items:center;font-family:var(--font-display);font-size:44px;overflow:hidden;border:4px solid var(--surface);box-shadow:var(--shadow)}
+.avatar img{width:100%;height:100%;object-fit:cover}
+.hero-name{font-family:var(--font-display);font-size:clamp(34px,5vw,52px);margin-bottom:6px}
+.hero-name small{font-family:var(--font);font-size:.4em;color:var(--muted);font-weight:500;margin-left:10px;letter-spacing:0}
+.hero-tagline{font-size:clamp(17px,2vw,20px);font-weight:600;margin:0 0 14px}
+.hero-tagline em{font-style:normal;color:var(--accent)}
+.hero-intro p{margin:0 0 8px;color:var(--muted);max-width:620px}
+.contact-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.contact-btn{display:inline-flex;align-items:center;gap:8px;padding:9px 16px;border-radius:999px;border:1px solid var(--line);background:var(--surface);text-decoration:none;font-size:14px;font-weight:600;transition:border-color .15s,transform .15s}
+.contact-btn:hover{border-color:var(--ink);transform:translateY(-1px)}
+.contact-btn svg{width:17px;height:17px}
+.contact-btn.primary{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.contact-btn.disabled{opacity:.55;cursor:not-allowed}
+.contact-btn.disabled:hover{transform:none;border-color:var(--line)}
+
+.about-grid{display:grid;grid-template-columns:1.35fr 1fr;gap:40px;align-items:start}
+.timeline{list-style:none;margin:0;padding:0;position:relative}
+.timeline::before{content:"";position:absolute;left:7px;top:8px;bottom:8px;width:2px;background:var(--line)}
+.tl-item{position:relative;padding:0 0 28px 36px}
+.tl-item:last-child{padding-bottom:0}
+.tl-item::before{content:"";position:absolute;left:0;top:7px;width:16px;height:16px;border-radius:50%;background:var(--surface);border:3px solid var(--accent)}
+.tl-item[data-type="학력"]::before{border-color:var(--ink)}
+.tl-meta{display:flex;gap:8px;align-items:center;font-size:13px;color:var(--muted);font-weight:500}
+.tl-type{padding:1px 8px;border-radius:6px;background:var(--accent-soft);color:var(--accent);font-weight:700;font-size:12px}
+.tl-item[data-type="학력"] .tl-type{background:#E7E8EC;color:var(--ink)}
+.tl-title{font-size:17px;font-weight:700;margin:4px 0 0}
+.tl-org{font-size:14px;color:var(--muted);margin:0}
+.tl-desc{font-size:15px;margin:6px 0 0}
+.side-card{padding:24px;margin-bottom:20px}
+.side-card h3{font-size:15px;margin-bottom:14px}
+.skill-group{margin-bottom:14px}
+.skill-group:last-child{margin-bottom:0}
+.skill-group p{margin:0 0 6px;font-size:13px;color:var(--muted);font-weight:600}
+.facts{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;margin:0;font-size:14px}
+.facts dt{color:var(--muted)}
+.facts dd{margin:0;font-weight:600}
+
+/* ---------- 프로젝트 ---------- */
+.project-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:20px}
+.project-card{padding:26px;cursor:pointer;text-align:left;width:100%;display:flex;flex-direction:column;gap:12px;transition:transform .18s,border-color .18s}
+.project-card:hover{transform:translateY(-3px);border-color:var(--ink)}
+.project-card .period{font-size:13px;color:var(--muted);font-weight:500;display:flex;justify-content:space-between;gap:8px}
+.project-card .status{color:var(--accent);font-weight:700}
+.project-card h3{font-size:19px}
+.project-card .role{font-size:14px;margin:0;color:var(--muted)}
+.project-card .summary{font-size:15px;margin:0;flex:1}
+.project-card .more{font-size:14px;font-weight:700;color:var(--accent)}
+dialog.modal{border:none;padding:0;border-radius:18px;width:min(760px,calc(100% - 32px));max-height:calc(100vh - 48px);background:var(--surface);color:var(--ink);box-shadow:0 20px 60px rgba(0,0,0,.25)}
+dialog.modal::backdrop{background:rgba(22,24,29,.5)}
+.modal-inner{padding:36px;overflow:auto;max-height:calc(100vh - 48px)}
+.modal-close{position:sticky;top:0;float:right;width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--surface);cursor:pointer;font-size:20px;line-height:1}
+.modal h2{font-family:var(--font-display);font-size:26px;margin:4px 0 8px;padding-right:44px}
+.modal-meta{font-size:14px;color:var(--muted);margin:0 0 14px}
+.modal h3{font-size:16px;margin:28px 0 8px;color:var(--accent)}
+.modal p,.modal li{font-size:15px}
+.modal ul{padding-left:20px;margin:0}
+.modal li{margin-bottom:4px}
+.modal .q-list{padding-left:20px;margin:0}
+.dm-table{width:100%;border-collapse:collapse;font-size:14px;margin-top:4px}
+.dm-table th,.dm-table td{text-align:left;padding:8px 10px 8px 0;border-bottom:1px solid var(--line);vertical-align:top}
+.dm-table thead th{font-size:12px;color:var(--muted);font-weight:600}
+.dm-table tbody th{white-space:nowrap;font-weight:700}
+.dm-table td:last-child{text-align:right;white-space:nowrap;padding-right:0}
+.dm-sub{font-size:13px;color:var(--muted);font-weight:600;margin:18px 0 8px}
+.rel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:6px}
+.rel-grid div{display:flex;flex-direction:column;padding:8px 10px;border:1px solid var(--line);border-radius:9px;background:var(--bg)}
+.rel-grid code{font-size:12.5px;font-weight:700;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.rel-grid span{font-size:13px;color:var(--muted)}
+.cta-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px}
+.modal .cta.ghost{background:var(--surface);color:var(--ink);border:1px solid var(--ink)}
+.modal .cta{display:inline-block;padding:10px 18px;border-radius:999px;background:var(--ink);color:var(--surface);text-decoration:none;font-weight:600;font-size:14px}
+
+/* ---------- 데이터 탐색 ---------- */
+.explore-head{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;align-items:flex-end;margin-bottom:20px}
+.explore-head .page-lead{margin-bottom:0}
+.stats{display:flex;gap:10px;flex-wrap:wrap}
+.stat{padding:10px 16px;min-width:96px}
+.stat b{display:block;font-size:22px;line-height:1.2}
+.stat span{font-size:12px;color:var(--muted)}
+.sample-badge{display:inline-block;margin-left:8px;padding:2px 8px;border-radius:6px;background:#FFF3C4;color:#6B4E00;font-size:12px;font-weight:700;vertical-align:middle}
+.toolbar{padding:14px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:14px}
+.search{position:relative;flex:1 1 240px}
+.search input{width:100%;padding:10px 14px 10px 38px;border:1px solid var(--line);border-radius:10px;font:inherit;font-size:15px;background:var(--bg)}
+.search svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:var(--muted)}
+.btn{padding:9px 14px;border-radius:10px;border:1px solid var(--line);background:var(--surface);cursor:pointer;font-size:14px;font-weight:600}
+.btn:hover{border-color:var(--ink)}
+.btn.dark{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.filters{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.filter-box{padding:14px 16px}
+.filter-box legend{font-size:13px;font-weight:700;color:var(--muted);padding:0}
+.filter-box fieldset{border:none;margin:0;padding:0}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;border:1px solid var(--line);font-size:13px;cursor:pointer;user-select:none;background:var(--surface)}
+.chip input{position:absolute;opacity:0;pointer-events:none}
+.chip .dot{width:10px;height:10px;border-radius:50%}
+.chip:has(input:not(:checked)){opacity:.4;text-decoration:line-through}
+.chip:has(input:focus-visible){outline:2px solid var(--accent);outline-offset:2px}
+.chip .cnt{color:var(--muted);font-size:12px}
+.graph-layout{display:grid;grid-template-columns:1fr 320px;gap:14px}
+.graph-box{position:relative;height:620px;overflow:hidden}
+#graph{position:absolute;inset:0}
+.graph-msg{position:absolute;inset:0;display:grid;place-items:center;text-align:center;color:var(--muted);padding:24px;font-size:15px}
+.graph-hint{position:absolute;left:12px;bottom:10px;font-size:12px;color:var(--muted);background:rgba(255,255,255,.85);padding:3px 8px;border-radius:6px;pointer-events:none}
+.subset-note{position:absolute;right:12px;top:12px;font-size:13px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:8px 10px;display:none;gap:8px;align-items:center;box-shadow:var(--shadow)}
+.subset-note.show{display:flex}
+.panel{padding:22px;height:620px;overflow:auto}
+.panel-empty{color:var(--muted);font-size:14px}
+.panel .lbl{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:2px 9px;border-radius:999px;color:#fff}
+.panel h3{font-size:20px;margin:10px 0 2px}
+.panel .sub{color:var(--muted);font-size:14px;margin:0 0 14px}
+.panel h4{font-size:13px;color:var(--muted);margin:18px 0 8px;font-weight:700}
+.props{width:100%;border-collapse:collapse;font-size:14px}
+.props th,.props td{text-align:left;padding:6px 0;border-bottom:1px solid var(--line);vertical-align:top}
+.props th{color:var(--muted);font-weight:500;width:38%;padding-right:10px}
+.nbr-list{list-style:none;margin:0;padding:0}
+.nbr-list li{margin-bottom:4px}
+.nbr-list button{width:100%;display:flex;align-items:center;gap:8px;padding:7px 9px;border:1px solid var(--line);border-radius:9px;background:var(--bg);cursor:pointer;text-align:left;font-size:14px}
+.nbr-list button:hover{border-color:var(--ink)}
+.nbr-list .rel{font-size:11px;font-weight:700;color:var(--muted);white-space:nowrap}
+.nbr-list .dot{width:9px;height:9px;border-radius:50%;flex:none}
+.nbr-list .nm{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* ---------- 푸터 ---------- */
+.site-footer{border-top:1px solid var(--line);padding:26px 0;font-size:13px;color:var(--muted)}
+.site-footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+
+/* ---------- 반응형 ---------- */
+@media (max-width:960px){
+  .about-grid{grid-template-columns:1fr}
+  .graph-layout{grid-template-columns:1fr}
+  .panel{height:auto;max-height:none}
+}
+@media (max-width:768px){
+  .menu-toggle{display:inline-flex}
+  .site-nav{position:fixed;top:var(--header-h);left:0;right:0;background:var(--bg);border-bottom:1px solid var(--line);padding:10px 16px 16px;display:none;box-shadow:0 10px 20px rgba(0,0,0,.06)}
+  .site-nav.open{display:block}
+  .nav-list{flex-direction:column}
+  .nav-list a{padding:12px 14px;border-radius:10px}
+  .home-btn .en{display:none}
+  .page{padding:36px 0 64px}
+  .hero{grid-template-columns:1fr;gap:22px}
+  .avatar{width:110px;height:110px;font-size:34px}
+  .section{margin-top:48px}
+  .filters{grid-template-columns:1fr}
+  .graph-box{height:460px}
+  .modal-inner{padding:24px}
+  .wrap{padding:0 18px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a href="#about" class="home-btn" id="homeBtn" aria-label="홈(자기소개)으로 이동">
+      <span class="mark" id="logoMark" aria-hidden="true">민</span>
+      <span id="logoName">김민섭</span><span class="en" id="logoEn"></span>
+    </a>
+    <button class="menu-toggle" id="menuToggle" aria-label="메뉴 열기" aria-expanded="false" aria-controls="siteNav"><span></span></button>
+    <nav class="site-nav" id="siteNav" aria-label="주 메뉴">
+      <ul class="nav-list">
+        <li><a href="#about" data-route="about">자기소개</a></li>
+        <li><a href="#projects" data-route="projects">프로젝트</a></li>
+        <li><a href="#explore" data-route="explore">데이터 탐색</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <!-- 1. 자기소개 -->
+  <section class="page" id="page-about" aria-labelledby="heroName">
+    <div class="wrap">
+      <div class="hero">
+        <div class="avatar" id="avatar"></div>
+        <div>
+          <p class="eyebrow">About me</p>
+          <h1 class="hero-name" id="heroName"></h1>
+          <p class="hero-tagline" id="heroTagline"></p>
+          <div class="hero-intro" id="heroIntro"></div>
+          <div class="contact-row" id="contactRow"></div>
+        </div>
+      </div>
+
+      <div class="about-grid section">
+        <section aria-labelledby="tlTitle">
+          <h2 class="section-title" id="tlTitle">학력 · 경력 · 활동</h2>
+          <ol class="timeline" id="timeline"></ol>
+        </section>
+        <aside>
+          <section class="card side-card" aria-labelledby="intTitle">
+            <h3 id="intTitle">관심 분야</h3>
+            <div class="tags" id="interests"></div>
+          </section>
+          <section class="card side-card" aria-labelledby="skTitle">
+            <h3 id="skTitle">보유 기술</h3>
+            <div id="skills"></div>
+          </section>
+          <section class="card side-card" aria-labelledby="moreTitle" id="moreCard">
+            <h3 id="moreTitle">조금 더 알아보기</h3>
+            <dl class="facts" id="moreFacts"></dl>
+          </section>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. 프로젝트 -->
+  <section class="page" id="page-projects" aria-labelledby="projTitle">
+    <div class="wrap">
+      <p class="eyebrow">Projects</p>
+      <h1 class="page-title" id="projTitle">프로젝트</h1>
+      <p class="page-lead">카드를 누르면 기획 배경부터 배운 점까지 자세히 볼 수 있어요.</p>
+      <div class="project-grid" id="projectGrid"></div>
+    </div>
+  </section>
+
+  <!-- 3. 데이터 탐색 -->
+  <section class="page" id="page-explore" aria-labelledby="expTitle">
+    <div class="wrap">
+      <div class="explore-head">
+        <div>
+          <p class="eyebrow">Explore the data</p>
+          <h1 class="page-title" id="expTitle"></h1>
+          <p class="page-lead" id="expDesc"></p>
+        </div>
+        <div class="stats" id="stats"></div>
+      </div>
+
+      <div class="card toolbar">
+        <label class="search">
+          <span class="sr-only">노드 이름 검색</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          <input id="searchInput" type="search" list="nodeNames" placeholder="노드 이름 검색 (예: Harry Potter, 해리)" autocomplete="off">
+          <datalist id="nodeNames"></datalist>
+        </label>
+        <button class="btn dark" id="searchBtn" type="button">찾기</button>
+        <button class="btn" id="fitBtn" type="button">화면 맞춤</button>
+        <button class="btn" id="resetBtn" type="button">필터 초기화</button>
+      </div>
+
+      <div class="filters">
+        <div class="card filter-box"><fieldset><legend>노드 유형 (범례)</legend><div class="chips" id="labelFilters"></div></fieldset></div>
+        <div class="card filter-box"><fieldset><legend>관계 유형</legend><div class="chips" id="relFilters"></div></fieldset></div>
+      </div>
+
+      <div class="graph-layout">
+        <div class="card graph-box">
+          <div id="graph" role="img" aria-label="지식그래프 네트워크 시각화"></div>
+          <div class="graph-msg" id="graphMsg">그래프를 불러오는 중…</div>
+          <div class="subset-note" id="subsetNote"><span id="subsetText"></span><button class="btn dark" id="showAllBtn" type="button">전체 보기</button></div>
+          <div class="graph-hint">휠: 확대·축소 · 드래그: 이동 · 노드 클릭: 상세</div>
+        </div>
+        <aside class="card panel" id="panel" aria-live="polite">
+          <p class="panel-empty">그래프에서 노드를 클릭하거나 검색하면 속성과 연결된 노드가 여기에 표시됩니다.</p>
+        </aside>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap"><span id="footerCopy"></span><span>GitHub Pages로 호스팅</span></div>
+</footer>
+
+<dialog class="modal" id="projectModal" aria-labelledby="modalTitle">
+  <div class="modal-inner" id="modalInner"></div>
+</dialog>
+
+<script>
+/* ====================================================================
+   SITE_DATA — 사이트에 보이는 모든 내용은 여기서 고칩니다.
+   · 문자열은 "따옴표" 안에, 항목 사이에는 쉼표(,)를 꼭 넣으세요.
+   · 날짜는 "YYYY-MM" 형식 (예: "2026-09"). 진행 중이면 end: "현재".
+   · 이력과 프로젝트는 시작일 기준 최신순으로 자동 정렬됩니다.
+   ==================================================================== */
+const SITE_DATA = {
+
+  /* ---------- 기본 정보 ---------- */
+  profile: {
+    name: "김민섭",
+    nameEn: "Kim Minsop",
+    logo: "민",                       // 왼쪽 위 네모 안 글자
+    photo: "",                        // 사진 파일명 (예: "profile.jpg"). 비워 두면 글자 아바타
+    tagline: "문학 텍스트를 <em>데이터</em>로 읽는 독어독문학도",
+    intro: [
+      "고려대학교 독어독문학과 26학번 김민섭입니다. 인문학 텍스트를 구조화된 데이터로 바꾸는 디지털인문학에 관심을 두고, 수업에서 영화 〈해리 포터와 마법사의 돌〉을 Neo4j 지식그래프로 구축하고 있습니다.",
+      "생명공학 분야로 진로를 넓혀 가고 있으며, 서로 다른 분야의 지식을 연결하는 일에 흥미를 느낍니다."
+    ]
+  },
+
+  /* ---------- 연락처 ----------
+     값이 "여기에 입력"이면 버튼이 흐리게 표시됩니다. 실제 주소로 바꾸세요. */
+  contact: {
+    email: "minsop7@gmail.com",
+    linkedin: "여기에 입력",           // 예: "https://www.linkedin.com/in/아이디"
+    github: "여기에 입력"              // 예: "https://github.com/아이디"
+  },
+
+  /* ---------- 학력 · 경력 · 활동 타임라인 ----------
+     새 항목은 이렇게 추가 (배열 안 아무 곳에나 넣어도 자동 정렬):
+     {
+       type: "활동",                  // "학력" | "경력" | "활동" 중 하나
+       title: "교내 영어회화 동아리",
+       org: "고려대학교",
+       start: "2027-03",
+       end: "현재",                   // 끝난 경우 "2027-12"
+       desc: "한 줄 설명"
+     },
+  */
+  timeline: [
+    {
+      type: "학력",
+      title: "독어독문학과 학사 과정",
+      org: "고려대학교",
+      start: "2026-03",
+      end: "현재",
+      desc: "2026년 입학. 디지털인문학 수업에서 지식그래프 구축을 경험하고 있습니다."
+    },
+    {
+      type: "활동",
+      title: "지식그래프 구축 프로젝트 (B팀)",
+      org: "고려대학교 · 디지털인문학응용",
+      start: "2026-09",
+      end: "2026-12",
+      desc: "영화 〈해리 포터와 마법사의 돌〉 Neo4j 지식그래프 구축. 사물·집단 데이터 담당."
+    }
+  ],
+
+  /* ---------- 관심 분야 ----------  새 항목: 따옴표로 감싼 글자를 쉼표로 추가 */
+  interests: ["생명공학", "디지털인문학", "지식그래프", "영어 회화", "AI 활용"],
+
+  /* ---------- 보유 기술 ----------
+     새 그룹은 이렇게 추가: { group: "디자인", items: ["Figma"] }, */
+  skills: [
+    { group: "데이터", items: ["Neo4j", "Cypher", "지식그래프 데이터 모델링"] },
+    { group: "언어",   items: ["한국어", "영어", "독일어 (전공)"] },
+    { group: "도구",   items: ["Claude"] }
+  ],
+
+  /* ---------- 조금 더 알아보기 ----------  필요 없으면 [] 로 비우면 카드가 사라집니다 */
+  moreAboutMe: [
+    { label: "MBTI", value: "INTJ" },
+    { label: "롤모델", value: "일론 머스크" },
+    { label: "희망 근무지", value: "서울" },
+    { label: "가고 싶은 나라", value: "미국" },
+    { label: "소울푸드", value: "초밥" }
+  ],
+
+  /* ---------- 프로젝트 ----------
+     새 프로젝트는 이렇게 추가:
+     {
+       id: "my-project",              // 영어·숫자로 된 고유 이름
+       title: "프로젝트 제목",
+       start: "2027-03",
+       end: "2027-06",                // 진행 중이면 "현재"
+       role: "내 역할",
+       tags: ["Python", "데이터 분석"],
+       summary: "카드에 보이는 두세 줄 요약",
+       background: "기획 배경 (문단 하나)",
+       goals: ["목표 1", "목표 2"],
+       process: ["수행 과정 1", "수행 과정 2"],
+       results: ["결과·배운 점 1", "결과·배운 점 2"],
+       link: "",                      // 관련 링크 (없으면 "")
+       // 아래 세 가지는 선택 항목 — 없으면 지워도 됩니다
+       questions: ["핵심 질문 1"],
+       dataModel: { classes: [{ name: "인물", desc: "설명", count: 30 }], relations: [{ name: "KNOWS", desc: "설명" }] },
+       documents: [{ label: "기획서 (PDF)", url: "파일이름.pdf" }]   // index.html과 같은 폴더에 올린 파일
+     },
+  */
+  projects: [
+    {
+      id: "hp-knowledge-graph",
+      title: "영화 〈해리 포터와 마법사의 돌〉 지식그래프 구축",
+      start: "2026-09",
+      end: "2026-12",
+      role: "사물·집단 데이터 수집 및 입력 (4인 팀 · B팀)",
+      course: "디지털인문학응용 (COLA173-19)",
+      tags: ["Neo4j", "Cypher", "지식그래프", "온톨로지 설계", "디지털인문학"],
+      summary: "영화 속 인물·집단·장소·사건·사물 83개 노드와 14종 관계를 Neo4j 그래프로 구축해, 서사 구조를 데이터로 분석합니다.",
+      background: "《해리 포터와 마법사의 돌》은 인물 간 관계와 사건의 연관성이 서사를 이끄는 작품입니다. 인물·집단·장소·사건·사물이 균형 있게 등장하고 대중적으로 널리 알려져 있어 팀 내 검증이 쉽다는 점에서 지식그래프 구축 대상으로 선정했습니다.",
+      goals: [
+        "주요 인물, 호그와트 기숙사, 장소, 사건, 사물 간 관계를 Neo4j 지식그래프로 구축",
+        "인물 관계뿐 아니라 사건·장소·집단이 어떻게 연결되는지 파악",
+        "두 개 이상의 관계를 따라가야 답할 수 있는 핵심 질문에 데이터로 답하기 — 예) 해리가 다른 인물에게 받은 사물은 무엇이며, 어떤 사건에서 사용되었는가?"
+      ],
+      process: [
+        "범위 정의: 1편 한정, 해리의 호그와트 입학부터 마법사의 돌 사건 해결까지",
+        "데이터 모델 설계: 5개 클래스(인물·집단·장소·사건·사물)와 14종 관계(BELONGS_TO, PARTICIPATES_IN, GIVES, GUARDS 등) 정의",
+        "영화 대본 전문을 기준 자료로 클래스별 분담 수집 — 본인은 사물·집단 담당",
+        "표기 불일치(레이븐클로/래번클로, 현자의 돌/마법사의 돌)로 인한 중복 노드를 막기 위해 표기 규칙 통일 — 인물·사물 노드는 한국어, 나머지 노드는 영어",
+        "원작 소설·영화·위키 간 내용 차이에 대비해, 사전에 협의한 영화 대본을 유일한 기준 자료로 사용",
+        "Cypher 질의 작성·검증 → 시각화 → 데이터 정제 순으로 진행"
+      ],
+      results: [
+        "진행 중 (2026년 12월 최종 발표 예정) — 산출물: Neo4j 그래프 DB, 시각화 결과, 최종 보고서",
+        "비정형 문학 텍스트에서 개체와 관계를 뽑아 그래프 모델로 옮기는 과정을 처음부터 끝까지 경험",
+        "'관련 있다' 같은 모호한 관계는 분석에 쓸 수 없다는 점 — 관계 이름을 구체적인 동사로 정의하는 습관",
+        "이 사이트의 '데이터 탐색' 메뉴에서 그래프를 직접 살펴볼 수 있습니다"
+      ],
+      link: "#explore",
+      questions: [
+        "해리가 다른 인물에게 받은 사물은 무엇이며, 그 사물은 어떤 사건에서 사용되었는가?",
+        "마법사의 돌을 둘러싼 사건에서 인물들은 어떤 역할(보호·협력·탈취·운반·대결)을 수행하는가?",
+        "해리와 같은 학교에 소속된 인물 중 해리와 직접 적대 관계인 인물은 누구이며, 그 인물의 기숙사는 어디인가?"
+      ],
+      dataModel: {
+        classes: [
+          { name: "인물", desc: "행위의 주체 — 해리 포터, 론 위즐리, 덤블도어, 스네이프 등", count: 30 },
+          { name: "집단", desc: "기숙사·팀·가문 — 그리핀도르, 위즐리 가문 등", count: 8 },
+          { name: "장소", desc: "사건이 일어나거나 사물이 있는 공간 — 호그와트, 금지된 숲 등", count: 15 },
+          { name: "사건", desc: "인물이 참여한 일 — 기숙사 배정식, 퀴렐과의 대결 등", count: 15 },
+          { name: "사물", desc: "소유·사용하는 물건과 동식물 — 마법사의 돌, 투명 망토 등", count: 15 }
+        ],
+        relations: [
+          { name: "BELONGS_TO", desc: "인물 → 집단 · 소속되다" },
+          { name: "FAMILY_OF", desc: "인물 → 인물 · 가족이다" },
+          { name: "FRIEND_OF", desc: "인물 → 인물 · 친구이다" },
+          { name: "RIVAL_OF", desc: "인물 → 인물 · 대립하다" },
+          { name: "SERVES", desc: "인물 → 인물 · 섬기다" },
+          { name: "PROTECTS", desc: "인물 → 인물 · 보호하다" },
+          { name: "SUSPECTS", desc: "인물 → 인물 · 의심하다" },
+          { name: "PARTICIPATES_IN", desc: "인물 → 사건 · 참여하다" },
+          { name: "OCCURS_AT", desc: "사건 → 장소 · 일어나다" },
+          { name: "OWNS", desc: "인물 → 사물 · 소유하다" },
+          { name: "GIVES", desc: "인물 → 사물 · 주다 (받는 사람은 속성)" },
+          { name: "USED_IN", desc: "사물 → 사건 · 사용되다" },
+          { name: "GUARDS", desc: "사물 → 사물 · 지키다" },
+          { name: "LOCATED_IN", desc: "장소/사물 → 장소 · 위치하다" }
+        ]
+      },
+      documents: [
+        { label: "프로젝트 기획서 (PDF)", url: "hp-kg-proposal.pdf" }
+      ]
+    }
+  ],
+
+  /* ---------- 그래프 데이터 (데이터 탐색 페이지) ---------- */
+  graph: {
+    title: "해리 포터 지식그래프 탐색",
+    description: "영화 〈해리 포터와 마법사의 돌〉의 인물·집단·장소·사건·사물과 그 관계를 Neo4j로 구축한 지식그래프입니다.",
+    isSample: true,          // 실제 CSV로 바꾼 뒤 false 로 바꾸면 '샘플' 표시가 사라집니다
+    initialLimit: 150,       // 노드가 이보다 많으면 연결이 많은 노드부터 일부만 먼저 보여 줍니다
+
+    /* 노드 라벨 → 화면에 보일 이름과 색. CSV에 새 라벨이 있으면 자동 색이 붙습니다. */
+    labels: {
+      Person: { name: "인물", color: "#D0583A" },
+      Group:  { name: "집단", color: "#3D6BD1" },
+      Place:  { name: "장소", color: "#2B8F63" },
+      Event:  { name: "사건", color: "#8853C2" },
+      Item:   { name: "사물", color: "#C98A12" }
+    },
+
+    /* 관계 타입 → 한국어 설명 (없어도 작동) */
+    relations: {
+      BELONGS_TO: "소속되다", FAMILY_OF: "가족이다", FRIEND_OF: "친구이다", RIVAL_OF: "대립하다",
+      SERVES: "섬기다", PROTECTS: "보호하다", SUSPECTS: "의심하다", PARTICIPATES_IN: "참여하다",
+      OCCURS_AT: "일어나다", OWNS: "소유하다", GIVES: "주다", USED_IN: "사용되다",
+      GUARDS: "지키다", LOCATED_IN: "위치하다"
+    },
+
+    /* ▼ Neo4j에서 내보낸 CSV를 ` (백틱) 두 개 사이에 그대로 붙여 넣으세요.
+         지원 형식
+         1) APOC 전체 내보내기: _id, _labels, ..., _start, _end, _type 컬럼 (노드·관계가 한 파일에 섞인 형식)
+         2) 관계 목록: source, target, type 컬럼 (노드는 이름으로 자동 생성)
+         지금 들어 있는 것은 기획서 데이터 모델로 만든 '샘플'입니다. */
+    csv: `
+"_id","_labels","name","alias","role","type","time","function","_start","_end","_type","recipient"
+"0",":Person","해리 포터","Harry Potter","주인공","","","","","","",""
+"1",":Person","론 위즐리","Ron Weasley","조력자","","","","","","",""
+"2",":Person","헤르미온느 그레인저","Hermione Granger","조력자","","","","","","",""
+"3",":Person","드레이코 말포이","Draco Malfoy","적대자","","","","","","",""
+"4",":Person","네빌 롱바텀","Neville Longbottom","학생","","","","","","",""
+"5",":Person","알버스 덤블도어","Albus Dumbledore","교장","","","","","","",""
+"6",":Person","세베루스 스네이프","Severus Snape","보호자","","","","","","",""
+"7",":Person","퀴리누스 퀴렐","Quirinus Quirrell","교수","","","","","","",""
+"8",":Person","미네르바 맥고나걸","Minerva McGonagall","교수","","","","","","",""
+"9",":Person","루베우스 해그리드","Rubeus Hagrid","조력자","","","","","","",""
+"10",":Person","볼드모트","Lord Voldemort","최종 적대자","","","","","","",""
+"11",":Person","버논 더즐리","Vernon Dursley","머글","","","","","","",""
+"12",":Person","페투니아 더즐리","Petunia Dursley","머글","","","","","","",""
+"13",":Person","더들리 더즐리","Dudley Dursley","머글","","","","","","",""
+"14",":Person","프레드 위즐리","Fred Weasley","학생","","","","","","",""
+"15",":Person","조지 위즐리","George Weasley","학생","","","","","","",""
+"16",":Person","퍼시 위즐리","Percy Weasley","반장","","","","","","",""
+"17",":Person","올리버 우드","Oliver Wood","퀴디치 주장","","","","","","",""
+"18",":Person","빈센트 크레이브","Vincent Crabbe","학생","","","","","","",""
+"19",":Person","그레고리 고일","Gregory Goyle","학생","","","","","","",""
+"20",":Person","마커스 플린트","Marcus Flint","퀴디치 주장","","","","","","",""
+"21",":Person","몰리 위즐리","Molly Weasley","어머니","","","","","","",""
+"22",":Person","지니 위즐리","Ginny Weasley","동생","","","","","","",""
+"23",":Person","아거스 필치","Argus Filch","관리인","","","","","","",""
+"24",":Person","롤랜다 후치","Rolanda Hooch","비행 교관","","","","","","",""
+"25",":Person","필리우스 플리트윅","Filius Flitwick","교수","","","","","","",""
+"30",":Group","Gryffindor","그리핀도르","","기숙사","","","","","",""
+"31",":Group","Slytherin","슬리데린","","기숙사","","","","","",""
+"32",":Group","Ravenclaw","래번클로","","기숙사","","","","","",""
+"33",":Group","Hufflepuff","후플푸프","","기숙사","","","","","",""
+"34",":Group","Gryffindor Quidditch Team","그리핀도르 퀴디치 팀","","팀","","","","","",""
+"35",":Group","Slytherin Quidditch Team","슬리데린 퀴디치 팀","","팀","","","","","",""
+"36",":Group","Weasley Family","위즐리 가문","","가문","","","","","",""
+"37",":Group","Dursley Family","더즐리 가족","","가문","","","","","",""
+"40",":Place","4 Privet Drive","프리벳가 4번지","","건물","","","","","",""
+"41",":Place","Diagon Alley","다이애건 앨리","","지역","","","","","",""
+"42",":Place","Platform 9¾","9와 3/4 승강장","","지역","","","","","",""
+"43",":Place","Hogwarts","호그와트","","건물","","","","","",""
+"44",":Place","Great Hall","대연회장","","방","","","","","",""
+"45",":Place","Third-floor Corridor","3층 복도","","방","","","","","",""
+"46",":Place","Quidditch Pitch","퀴디치 경기장","","지역","","","","","",""
+"47",":Place","Forbidden Forest","금지된 숲","","지역","","","","","",""
+"48",":Place","Hospital Wing","병동","","방","","","","","",""
+"49",":Place","Gringotts","그린고트","","건물","","","","","",""
+"50",":Place","Ollivanders","올리밴더스","","건물","","","","","",""
+"51",":Place","Girls' Bathroom","여자 화장실","","방","","","","","",""
+"52",":Place","Hagrid's Hut","해그리드의 오두막","","건물","","","","","",""
+"53",":Place","King's Cross Station","킹스크로스역","","건물","","","","","",""
+"60",":Event","Letters from Hogwarts","입학 편지 배달","","","1991-07","","","","",""
+"61",":Event","Sorting Ceremony","기숙사 배정식","","","1991-09-01","","","","",""
+"62",":Event","Troll in the Dungeon","할로윈 트롤 침입","","","1991-10-31","","","","",""
+"63",":Event","First Quidditch Match","첫 퀴디치 경기","","","1991-11","","","","",""
+"64",":Event","Discovery of the Mirror of Erised","소망의 거울 발견","","","1991-12","","","","",""
+"65",":Event","Detention in the Forbidden Forest","금지된 숲 벌칙","","","","","","","",""
+"66",":Event","Escape from Devil's Snare","악마의 덫 탈출","","","","","","","",""
+"67",":Event","Wizard Chess Match","마법사 체스 대결","","","","","","","",""
+"68",":Event","Confrontation with Quirrell","퀴렐과의 대결","","","","","","","",""
+"69",":Event","House Cup Ceremony","기숙사 우승컵 시상","","","","","","","",""
+"70",":Event","Flying Lesson","첫 비행 수업","","","","","","","",""
+"71",":Event","Norbert's Hatching","노버트 부화","","","","","","","",""
+"72",":Event","Winged Keys Chamber","날개 달린 열쇠의 방","","","","","","","",""
+"80",":Item","마법사의 돌","Philosopher's Stone","","마법 물품","","영생의 묘약을 만든다","","","",""
+"81",":Item","분류 모자","Sorting Hat","","마법 물품","","학생의 기숙사를 정한다","","","",""
+"82",":Item","투명 망토","Invisibility Cloak","","마법 물품","","착용자를 투명하게 만든다","","","",""
+"83",":Item","님부스 2000","Nimbus 2000","","빗자루","","퀴디치용 빗자루","","","",""
+"84",":Item","소망의 거울","Mirror of Erised","","마법 물품","","가장 간절한 소망을 비춘다","","","",""
+"85",":Item","해리의 지팡이","Harry's Wand","","지팡이","","","","","",""
+"86",":Item","헤드위그","Hedwig","","동물","","해리의 부엉이","","","",""
+"87",":Item","플러피","Fluffy","","동물","","머리 셋 달린 개","","","",""
+"88",":Item","악마의 덫","Devil's Snare","","식물","","몸을 옭아매는 덩굴","","","",""
+"89",":Item","날개 달린 열쇠","Flying Keys","","마법 물품","","","","","",""
+"90",":Item","마법사 체스","Wizard's Chess","","마법 물품","","","","","",""
+"91",":Item","기억구슬","Remembrall","","마법 물품","","","","","",""
+"92",":Item","노버트","Norbert","","동물","","새끼 용","","","",""
+"","","","","","","","","0","30","BELONGS_TO",""
+"","","","","","","","","1","30","BELONGS_TO",""
+"","","","","","","","","2","30","BELONGS_TO",""
+"","","","","","","","","4","30","BELONGS_TO",""
+"","","","","","","","","8","30","BELONGS_TO",""
+"","","","","","","","","9","30","BELONGS_TO",""
+"","","","","","","","","14","30","BELONGS_TO",""
+"","","","","","","","","15","30","BELONGS_TO",""
+"","","","","","","","","16","30","BELONGS_TO",""
+"","","","","","","","","17","30","BELONGS_TO",""
+"","","","","","","","","3","31","BELONGS_TO",""
+"","","","","","","","","6","31","BELONGS_TO",""
+"","","","","","","","","18","31","BELONGS_TO",""
+"","","","","","","","","19","31","BELONGS_TO",""
+"","","","","","","","","20","31","BELONGS_TO",""
+"","","","","","","","","25","32","BELONGS_TO",""
+"","","","","","","","","0","34","BELONGS_TO",""
+"","","","","","","","","14","34","BELONGS_TO",""
+"","","","","","","","","15","34","BELONGS_TO",""
+"","","","","","","","","17","34","BELONGS_TO",""
+"","","","","","","","","20","35","BELONGS_TO",""
+"","","","","","","","","1","36","BELONGS_TO",""
+"","","","","","","","","14","36","BELONGS_TO",""
+"","","","","","","","","15","36","BELONGS_TO",""
+"","","","","","","","","16","36","BELONGS_TO",""
+"","","","","","","","","21","36","BELONGS_TO",""
+"","","","","","","","","22","36","BELONGS_TO",""
+"","","","","","","","","11","37","BELONGS_TO",""
+"","","","","","","","","12","37","BELONGS_TO",""
+"","","","","","","","","13","37","BELONGS_TO",""
+"","","","","","","","","1","14","FAMILY_OF",""
+"","","","","","","","","1","15","FAMILY_OF",""
+"","","","","","","","","1","16","FAMILY_OF",""
+"","","","","","","","","1","22","FAMILY_OF",""
+"","","","","","","","","14","15","FAMILY_OF",""
+"","","","","","","","","21","1","FAMILY_OF",""
+"","","","","","","","","11","13","FAMILY_OF",""
+"","","","","","","","","12","13","FAMILY_OF",""
+"","","","","","","","","12","0","FAMILY_OF",""
+"","","","","","","","","0","1","FRIEND_OF",""
+"","","","","","","","","0","2","FRIEND_OF",""
+"","","","","","","","","1","2","FRIEND_OF",""
+"","","","","","","","","0","9","FRIEND_OF",""
+"","","","","","","","","0","4","FRIEND_OF",""
+"","","","","","","","","0","3","RIVAL_OF",""
+"","","","","","","","","3","1","RIVAL_OF",""
+"","","","","","","","","0","10","RIVAL_OF",""
+"","","","","","","","","0","7","RIVAL_OF",""
+"","","","","","","","","17","20","RIVAL_OF",""
+"","","","","","","","","7","10","SERVES",""
+"","","","","","","","","18","3","SERVES",""
+"","","","","","","","","19","3","SERVES",""
+"","","","","","","","","9","5","SERVES",""
+"","","","","","","","","6","0","PROTECTS",""
+"","","","","","","","","5","0","PROTECTS",""
+"","","","","","","","","9","0","PROTECTS",""
+"","","","","","","","","0","6","SUSPECTS",""
+"","","","","","","","","1","6","SUSPECTS",""
+"","","","","","","","","2","6","SUSPECTS",""
+"","","","","","","","","9","60","PARTICIPATES_IN",""
+"","","","","","","","","0","60","PARTICIPATES_IN",""
+"","","","","","","","","11","60","PARTICIPATES_IN",""
+"","","","","","","","","0","61","PARTICIPATES_IN",""
+"","","","","","","","","1","61","PARTICIPATES_IN",""
+"","","","","","","","","2","61","PARTICIPATES_IN",""
+"","","","","","","","","3","61","PARTICIPATES_IN",""
+"","","","","","","","","8","61","PARTICIPATES_IN",""
+"","","","","","","","","0","62","PARTICIPATES_IN",""
+"","","","","","","","","1","62","PARTICIPATES_IN",""
+"","","","","","","","","2","62","PARTICIPATES_IN",""
+"","","","","","","","","7","62","PARTICIPATES_IN",""
+"","","","","","","","","6","62","PARTICIPATES_IN",""
+"","","","","","","","","0","63","PARTICIPATES_IN",""
+"","","","","","","","","6","63","PARTICIPATES_IN",""
+"","","","","","","","","7","63","PARTICIPATES_IN",""
+"","","","","","","","","14","63","PARTICIPATES_IN",""
+"","","","","","","","","15","63","PARTICIPATES_IN",""
+"","","","","","","","","17","63","PARTICIPATES_IN",""
+"","","","","","","","","20","63","PARTICIPATES_IN",""
+"","","","","","","","","0","64","PARTICIPATES_IN",""
+"","","","","","","","","1","64","PARTICIPATES_IN",""
+"","","","","","","","","5","64","PARTICIPATES_IN",""
+"","","","","","","","","0","65","PARTICIPATES_IN",""
+"","","","","","","","","2","65","PARTICIPATES_IN",""
+"","","","","","","","","3","65","PARTICIPATES_IN",""
+"","","","","","","","","4","65","PARTICIPATES_IN",""
+"","","","","","","","","9","65","PARTICIPATES_IN",""
+"","","","","","","","","10","65","PARTICIPATES_IN",""
+"","","","","","","","","0","66","PARTICIPATES_IN",""
+"","","","","","","","","1","66","PARTICIPATES_IN",""
+"","","","","","","","","2","66","PARTICIPATES_IN",""
+"","","","","","","","","0","72","PARTICIPATES_IN",""
+"","","","","","","","","1","72","PARTICIPATES_IN",""
+"","","","","","","","","2","72","PARTICIPATES_IN",""
+"","","","","","","","","0","67","PARTICIPATES_IN",""
+"","","","","","","","","1","67","PARTICIPATES_IN",""
+"","","","","","","","","2","67","PARTICIPATES_IN",""
+"","","","","","","","","0","68","PARTICIPATES_IN",""
+"","","","","","","","","7","68","PARTICIPATES_IN",""
+"","","","","","","","","10","68","PARTICIPATES_IN",""
+"","","","","","","","","0","69","PARTICIPATES_IN",""
+"","","","","","","","","4","69","PARTICIPATES_IN",""
+"","","","","","","","","5","69","PARTICIPATES_IN",""
+"","","","","","","","","0","70","PARTICIPATES_IN",""
+"","","","","","","","","3","70","PARTICIPATES_IN",""
+"","","","","","","","","4","70","PARTICIPATES_IN",""
+"","","","","","","","","24","70","PARTICIPATES_IN",""
+"","","","","","","","","0","71","PARTICIPATES_IN",""
+"","","","","","","","","1","71","PARTICIPATES_IN",""
+"","","","","","","","","2","71","PARTICIPATES_IN",""
+"","","","","","","","","9","71","PARTICIPATES_IN",""
+"","","","","","","","","60","40","OCCURS_AT",""
+"","","","","","","","","61","44","OCCURS_AT",""
+"","","","","","","","","62","51","OCCURS_AT",""
+"","","","","","","","","63","46","OCCURS_AT",""
+"","","","","","","","","64","43","OCCURS_AT",""
+"","","","","","","","","65","47","OCCURS_AT",""
+"","","","","","","","","66","45","OCCURS_AT",""
+"","","","","","","","","72","45","OCCURS_AT",""
+"","","","","","","","","67","45","OCCURS_AT",""
+"","","","","","","","","68","45","OCCURS_AT",""
+"","","","","","","","","69","44","OCCURS_AT",""
+"","","","","","","","","70","43","OCCURS_AT",""
+"","","","","","","","","71","52","OCCURS_AT",""
+"","","","","","","","","0","82","OWNS",""
+"","","","","","","","","0","83","OWNS",""
+"","","","","","","","","0","85","OWNS",""
+"","","","","","","","","0","86","OWNS",""
+"","","","","","","","","9","87","OWNS",""
+"","","","","","","","","9","92","OWNS",""
+"","","","","","","","","4","91","OWNS",""
+"","","","","","","","","9","86","GIVES","해리 포터"
+"","","","","","","","","5","82","GIVES","해리 포터"
+"","","","","","","","","8","83","GIVES","해리 포터"
+"","","","","","","","","81","61","USED_IN",""
+"","","","","","","","","83","63","USED_IN",""
+"","","","","","","","","84","64","USED_IN",""
+"","","","","","","","","82","64","USED_IN",""
+"","","","","","","","","84","68","USED_IN",""
+"","","","","","","","","80","68","USED_IN",""
+"","","","","","","","","88","66","USED_IN",""
+"","","","","","","","","89","72","USED_IN",""
+"","","","","","","","","90","67","USED_IN",""
+"","","","","","","","","91","70","USED_IN",""
+"","","","","","","","","87","80","GUARDS",""
+"","","","","","","","","88","80","GUARDS",""
+"","","","","","","","","89","80","GUARDS",""
+"","","","","","","","","90","80","GUARDS",""
+"","","","","","","","","84","80","GUARDS",""
+"","","","","","","","","44","43","LOCATED_IN",""
+"","","","","","","","","45","43","LOCATED_IN",""
+"","","","","","","","","46","43","LOCATED_IN",""
+"","","","","","","","","47","43","LOCATED_IN",""
+"","","","","","","","","48","43","LOCATED_IN",""
+"","","","","","","","","51","43","LOCATED_IN",""
+"","","","","","","","","52","43","LOCATED_IN",""
+"","","","","","","","","42","53","LOCATED_IN",""
+"","","","","","","","","49","41","LOCATED_IN",""
+"","","","","","","","","50","41","LOCATED_IN",""
+"","","","","","","","","80","45","LOCATED_IN",""
+"","","","","","","","","84","45","LOCATED_IN",""
+"","","","","","","","","87","45","LOCATED_IN",""
+`
+  }
+};
+/* ======================= 여기부터는 고치지 않아도 됩니다 ======================= */
+
+(function () {
+  "use strict";
+  const $ = (s, el) => (el || document).querySelector(s);
+  const PLACEHOLDER = "여기에 입력";
+  const esc = (s) => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+  const isFilled = (v) => v && String(v).trim() && String(v).trim() !== PLACEHOLDER;
+
+  /* ---------- 날짜 ---------- */
+  function dateKey(d) {
+    if (!d) return 0;
+    if (d === "현재") return 999999;
+    const m = String(d).match(/(\d{4})(?:[-.](\d{1,2}))?/);
+    return m ? Number(m[1]) * 100 + Number(m[2] || 0) : 0;
+  }
+  const fmtDate = (d) => !d ? "" : d === "현재" ? "현재" : String(d).replace("-", ".");
+  const fmtRange = (a, b) => b ? `${fmtDate(a)} – ${fmtDate(b)}` : fmtDate(a);
+  const byLatest = (a, b) => dateKey(b.start) - dateKey(a.start) || dateKey(b.end) - dateKey(a.end);
+
+  /* ---------- 아이콘 ---------- */
+  const ICONS = {
+    mail: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>',
+    linkedin: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 13h18"/></svg>',
+    github: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m8 7-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"/></svg>'
+  };
+
+  /* ---------- 자기소개 렌더링 ---------- */
+  function renderAbout() {
+    const p = SITE_DATA.profile, c = SITE_DATA.contact;
+    $("#logoMark").textContent = p.logo || (p.name || "").slice(0, 1);
+    $("#logoName").textContent = p.name;
+    $("#logoEn").textContent = p.nameEn || "";
+    $("#footerCopy").textContent = `© ${new Date().getFullYear()} ${p.name}${p.nameEn ? " (" + p.nameEn + ")" : ""}`;
+
+    $("#avatar").innerHTML = isFilled(p.photo)
+      ? `<img src="${esc(p.photo)}" alt="${esc(p.name)} 프로필 사진">`
+      : `<span aria-hidden="true">${esc((p.name || "").slice(-2))}</span>`;
+    if (!isFilled(p.photo)) $("#avatar").setAttribute("aria-hidden", "true");
+
+    $("#heroName").innerHTML = `${esc(p.name)}${p.nameEn ? `<small>${esc(p.nameEn)}</small>` : ""}`;
+    // tagline은 <em> 강조만 허용
+    $("#heroTagline").innerHTML = esc(p.tagline).replace(/&lt;em&gt;/g, "<em>").replace(/&lt;\/em&gt;/g, "</em>");
+    $("#heroIntro").innerHTML = (p.intro || []).map(t => `<p>${esc(t)}</p>`).join("");
+
+    const btn = (href, icon, label, primary, external) => isFilled(href)
+      ? `<a class="contact-btn${primary ? " primary" : ""}" href="${esc(href)}"${external ? ' target="_blank" rel="noopener noreferrer"' : ""}>${ICONS[icon]}${label}</a>`
+      : `<span class="contact-btn disabled" title="SITE_DATA.contact에서 입력하세요" aria-disabled="true">${ICONS[icon]}${label}</span>`;
+    $("#contactRow").innerHTML =
+      btn(isFilled(c.email) ? "mailto:" + c.email : "", "mail", "이메일", true, false) +
+      btn(c.linkedin, "linkedin", "LinkedIn", false, true) +
+      btn(c.github, "github", "GitHub", false, true);
+
+    $("#timeline").innerHTML = [...(SITE_DATA.timeline || [])].sort(byLatest).map(t => `
+      <li class="tl-item" data-type="${esc(t.type)}">
+        <div class="tl-meta"><span class="tl-type">${esc(t.type)}</span><time>${esc(fmtRange(t.start, t.end))}</time></div>
+        <h3 class="tl-title">${esc(t.title)}</h3>
+        ${t.org ? `<p class="tl-org">${esc(t.org)}</p>` : ""}
+        ${t.desc ? `<p class="tl-desc">${esc(t.desc)}</p>` : ""}
+      </li>`).join("");
+
+    $("#interests").innerHTML = (SITE_DATA.interests || []).map(i => `<span class="tag">${esc(i)}</span>`).join("");
+    $("#skills").innerHTML = (SITE_DATA.skills || []).map(g => `
+      <div class="skill-group"><p>${esc(g.group)}</p><div class="tags">${(g.items || []).map(i => `<span class="tag">${esc(i)}</span>`).join("")}</div></div>`).join("");
+
+    const facts = SITE_DATA.moreAboutMe || [];
+    if (!facts.length) $("#moreCard").remove();
+    else $("#moreFacts").innerHTML = facts.map(f => `<dt>${esc(f.label)}</dt><dd>${esc(f.value)}</dd>`).join("");
+  }
+
+  /* ---------- 프로젝트 렌더링 ---------- */
+  const projects = [...(SITE_DATA.projects || [])].sort(byLatest);
+  function renderProjects() {
+    $("#projectGrid").innerHTML = projects.map((p, i) => `
+      <button type="button" class="card project-card" data-idx="${i}" aria-haspopup="dialog">
+        <span class="period"><span>${esc(fmtRange(p.start, p.end))}</span>${dateKey(p.end) >= dateKey(currentYM()) ? '<span class="status">진행 중</span>' : ""}</span>
+        <h3>${esc(p.title)}</h3>
+        <p class="role">${esc(p.role)}</p>
+        <div class="tags">${(p.tags || []).map(t => `<span class="tag">${esc(t)}</span>`).join("")}</div>
+        <p class="summary">${esc(p.summary)}</p>
+        <span class="more">자세히 보기 →</span>
+      </button>`).join("");
+    $("#projectGrid").addEventListener("click", e => {
+      const card = e.target.closest(".project-card");
+      if (card) openProject(Number(card.dataset.idx));
+    });
+  }
+  function currentYM() { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`; }
+  const list = (arr) => arr && arr.length ? `<ul>${arr.map(x => `<li>${esc(x)}</li>`).join("")}</ul>` : "";
+  const modal = $("#projectModal");
+  function openProject(i) {
+    const p = projects[i]; if (!p) return;
+    $("#modalInner").innerHTML = `
+      <button class="modal-close" type="button" aria-label="닫기">×</button>
+      <p class="eyebrow">${esc(fmtRange(p.start, p.end))}${p.course ? " · " + esc(p.course) : ""}</p>
+      <h2 id="modalTitle">${esc(p.title)}</h2>
+      <p class="modal-meta">역할 · ${esc(p.role)}</p>
+      <div class="tags">${(p.tags || []).map(t => `<span class="tag">${esc(t)}</span>`).join("")}</div>
+      ${p.background ? `<h3>기획 배경</h3><p>${esc(p.background)}</p>` : ""}
+      ${p.goals && p.goals.length ? `<h3>목표</h3>${list(p.goals)}` : ""}
+      ${p.questions && p.questions.length ? `<h3>핵심 질문</h3><ol class="q-list">${p.questions.map(q => `<li>${esc(q)}</li>`).join("")}</ol>` : ""}
+      ${p.dataModel ? `<h3>데이터 모델</h3>
+        ${(p.dataModel.classes || []).length ? `<table class="dm-table"><caption class="sr-only">클래스</caption><thead><tr><th scope="col">클래스</th><th scope="col">설명</th><th scope="col">예상 건수</th></tr></thead><tbody>${p.dataModel.classes.map(c => `<tr><th scope="row">${esc(c.name)}</th><td>${esc(c.desc)}</td><td>${esc(c.count == null ? "" : c.count)}</td></tr>`).join("")}</tbody></table>` : ""}
+        ${(p.dataModel.relations || []).length ? `<p class="dm-sub">관계 ${p.dataModel.relations.length}종</p><div class="rel-grid">${p.dataModel.relations.map(r => `<div><code>${esc(r.name)}</code><span>${esc(r.desc)}</span></div>`).join("")}</div>` : ""}` : ""}
+      ${p.process && p.process.length ? `<h3>수행 과정</h3>${list(p.process)}` : ""}
+      ${p.results && p.results.length ? `<h3>결과 · 배운 점</h3>${list(p.results)}` : ""}
+      <div class="cta-row">
+      ${(p.documents || []).filter(d => isFilled(d.url)).map(d => `<a class="cta ghost" href="${esc(d.url)}" target="_blank" rel="noopener noreferrer">${esc(d.label)} ↗</a>`).join("")}
+      ${isFilled(p.link) ? `<a class="cta" href="${esc(p.link)}"${/^https?:/.test(p.link) ? ' target="_blank" rel="noopener noreferrer"' : ""}>${p.link.startsWith("#") ? "그래프 직접 탐색하기 →" : "관련 링크 열기 →"}</a>` : ""}
+      </div>`;
+    if (typeof modal.showModal === "function") modal.showModal(); else modal.setAttribute("open", "");
+    $(".modal-close", modal).focus();
+  }
+  function closeModal() { if (modal.open) { if (typeof modal.close === "function") modal.close(); else modal.removeAttribute("open"); } }
+  modal.addEventListener("click", e => {
+    if (e.target === modal || e.target.closest(".modal-close")) closeModal();
+    else if (e.target.closest(".cta[href^='#']")) closeModal();
+  });
+
+  /* ---------- 해시 라우팅 ---------- */
+  const ROUTES = ["about", "projects", "explore"];
+  function route() {
+    let r = (location.hash || "#about").slice(1).split("/")[0];
+    if (!ROUTES.includes(r)) r = "about";
+    ROUTES.forEach(x => $("#page-" + x).classList.toggle("active", x === r));
+    document.querySelectorAll(".nav-list a").forEach(a => {
+      if (a.dataset.route === r) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current");
+    });
+    const titles = { about: "", projects: "프로젝트 · ", explore: "데이터 탐색 · " };
+    document.title = titles[r] + SITE_DATA.profile.name + " | Portfolio";
+    setMenu(false);
+    window.scrollTo(0, 0);
+    if (r === "explore") Graph.show();
+  }
+
+  /* ---------- 모바일 메뉴 ---------- */
+  const toggle = $("#menuToggle"), nav = $("#siteNav");
+  function setMenu(open) {
+    nav.classList.toggle("open", open);
+    toggle.setAttribute("aria-expanded", String(open));
+    toggle.setAttribute("aria-label", open ? "메뉴 닫기" : "메뉴 열기");
+  }
+  toggle.addEventListener("click", () => setMenu(!nav.classList.contains("open")));
+  document.addEventListener("keydown", e => { if (e.key === "Escape") setMenu(false); });
+  // 같은 메뉴를 다시 눌렀을 때도 메뉴를 닫고 맨 위로
+  document.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener("click", () => {
+    if (a.getAttribute("href") === location.hash) { setMenu(false); window.scrollTo(0, 0); }
+  }));
+
+  /* ======================= 그래프 ======================= */
+  function parseCSV(text) {
+    const rows = []; let row = [], field = "", q = false;
+    text = text.replace(/^﻿/, "");
+    for (let i = 0; i < text.length; i++) {
+      const ch = text[i];
+      if (q) {
+        if (ch === '"') { if (text[i + 1] === '"') { field += '"'; i++; } else q = false; }
+        else field += ch;
+      } else if (ch === '"') q = true;
+      else if (ch === ",") { row.push(field); field = ""; }
+      else if (ch === "\n" || ch === "\r") {
+        if (ch === "\r" && text[i + 1] === "\n") i++;
+        row.push(field); field = "";
+        if (row.some(v => v !== "")) rows.push(row);
+        row = [];
+      } else field += ch;
+    }
+    row.push(field); if (row.some(v => v !== "")) rows.push(row);
+    return rows;
+  }
+
+  function buildGraph(csvText) {
+    const rows = parseCSV(csvText.trim());
+    if (rows.length < 2) return { nodes: [], edges: [] };
+    const head = rows[0].map(h => h.trim());
+    const find = (...names) => { for (const n of names) { const i = head.findIndex(h => h.toLowerCase() === n.toLowerCase()); if (i > -1) return i; } return -1; };
+    const nodes = new Map(), edges = [];
+    const NAME_KEYS = ["name", "title", "alias", "label"];
+    const nodeName = (props, id) => { for (const k of NAME_KEYS) if (props[k]) return props[k]; const v = Object.values(props).find(x => x); return v || String(id); };
+
+    const iStart = find("_start"), iEnd = find("_end");
+    if (iStart > -1 && iEnd > -1) {
+      // 1) APOC 형식: 노드와 관계가 한 파일에 섞여 있음
+      const iId = find("_id"), iLab = find("_labels"), iType = find("_type");
+      const meta = new Set([iId, iLab, iStart, iEnd, iType]);
+      rows.slice(1).forEach(r => {
+        const props = {};
+        head.forEach((h, i) => { if (!meta.has(i) && r[i] != null && r[i] !== "") props[h] = r[i]; });
+        if (r[iStart] && r[iEnd]) {
+          edges.push({ from: r[iStart], to: r[iEnd], type: (iType > -1 && r[iType]) || "RELATED", props });
+        } else if (iId > -1 && r[iId] !== "") {
+          const labels = iLab > -1 ? String(r[iLab]).split(":").filter(Boolean) : [];
+          nodes.set(r[iId], { id: r[iId], label: labels[0] || "Node", labels, name: nodeName(props, r[iId]), props });
+        }
+      });
+    } else {
+      // 2) 관계 목록 형식: source, target, type
+      const iS = find("source", "start", "from", ":START_ID", "start_name", "n.name"),
+            iT = find("target", "end", "to", ":END_ID", "end_name", "m.name"),
+            iR = find("type", "relationship", "rel", ":TYPE", "type(r)"),
+            iSL = find("source_label", "start_label"), iTL = find("target_label", "end_label");
+      if (iS < 0 || iT < 0) { console.warn("CSV 형식을 알아볼 수 없습니다. 안내문을 확인하세요."); return { nodes: [], edges: [] }; }
+      const ensure = (n, l) => { if (!nodes.has(n)) nodes.set(n, { id: n, label: l || "Node", labels: [l || "Node"], name: n, props: { name: n } }); };
+      rows.slice(1).forEach(r => {
+        if (!r[iS] || !r[iT]) return;
+        ensure(r[iS], iSL > -1 ? r[iSL] : ""); ensure(r[iT], iTL > -1 ? r[iTL] : "");
+        const props = {}; head.forEach((h, i) => { if (![iS, iT, iR, iSL, iTL].includes(i) && r[i]) props[h] = r[i]; });
+        edges.push({ from: r[iS], to: r[iT], type: (iR > -1 && r[iR]) || "RELATED", props });
+      });
+    }
+    const valid = edges.filter(e => nodes.has(e.from) && nodes.has(e.to));
+    if (valid.length < edges.length) console.info(`끝점 노드를 찾지 못한 관계 ${edges.length - valid.length}개는 제외했습니다.`);
+    return { nodes: [...nodes.values()], edges: valid.map((e, i) => ({ ...e, id: "e" + i })) };
+  }
+
+  const Graph = (function () {
+    const G = SITE_DATA.graph;
+    const data = buildGraph(G.csv || "");
+    const FALLBACK = ["#D0583A", "#3D6BD1", "#2B8F63", "#8853C2", "#C98A12", "#1F8A9E", "#B83E7A", "#5C6B2E", "#6B5A4E", "#4A4FB0"];
+    const labelInfo = {}; let fi = 0;
+    const used = Object.values(G.labels || {}).map(v => v.color);
+    data.nodes.forEach(n => {
+      if (labelInfo[n.label]) return;
+      const cfg = (G.labels || {})[n.label];
+      let color = cfg && cfg.color;
+      if (!color) { while (used.includes(FALLBACK[fi % FALLBACK.length]) && fi < FALLBACK.length * 2) fi++; color = FALLBACK[fi++ % FALLBACK.length]; }
+      labelInfo[n.label] = { name: (cfg && cfg.name) || n.label, color };
+    });
+    const relTypes = [...new Set(data.edges.map(e => e.type))];
+    const relName = t => (G.relations || {})[t] ? `${t} (${G.relations[t]})` : t;
+
+    const byId = new Map(data.nodes.map(n => [n.id, n]));
+    const adj = new Map(data.nodes.map(n => [n.id, []]));
+    data.edges.forEach(e => { adj.get(e.from).push({ e, other: e.to, dir: "out" }); adj.get(e.to).push({ e, other: e.from, dir: "in" }); });
+    const degree = id => adj.get(id).length;
+
+    const limit = Number(G.initialLimit) || 150;
+    const initialSet = new Set([...data.nodes].sort((a, b) => degree(b.id) - degree(a.id)).slice(0, limit).map(n => n.id));
+    const state = { labels: new Set(Object.keys(labelInfo)), rels: new Set(relTypes), showAll: data.nodes.length <= limit };
+
+    let network = null, nodesDS = null, edgesDS = null, started = false;
+
+    function header() {
+      $("#expTitle").innerHTML = esc(G.title) + (G.isSample ? '<span class="sample-badge">샘플 데이터</span>' : "");
+      $("#expDesc").textContent = G.description + (G.isSample ? " 지금은 기획서의 데이터 모델로 만든 샘플이며, 팀의 Neo4j 데이터로 교체될 예정입니다." : "");
+      $("#stats").innerHTML = [["노드", data.nodes.length], ["관계", data.edges.length], ["노드 유형", Object.keys(labelInfo).length], ["관계 유형", relTypes.length]]
+        .map(([k, v]) => `<div class="card stat"><b>${v}</b><span>${k}</span></div>`).join("");
+      const cnt = {}; data.nodes.forEach(n => cnt[n.label] = (cnt[n.label] || 0) + 1);
+      $("#labelFilters").innerHTML = Object.entries(labelInfo).map(([k, v]) =>
+        `<label class="chip"><input type="checkbox" data-label="${esc(k)}" checked><span class="dot" style="background:${esc(v.color)}"></span>${esc(v.name)} <span class="cnt">${cnt[k]}</span></label>`).join("");
+      const rc = {}; data.edges.forEach(e => rc[e.type] = (rc[e.type] || 0) + 1);
+      $("#relFilters").innerHTML = relTypes.map(t =>
+        `<label class="chip" title="${esc(relName(t))}"><input type="checkbox" data-rel="${esc(t)}" checked>${esc(t)} <span class="cnt">${rc[t]}</span></label>`).join("");
+      $("#nodeNames").innerHTML = data.nodes.map(n => `<option value="${esc(n.name)}">${n.props.alias && n.props.alias !== n.name ? esc(n.props.alias) : ""}</option>`).join("");
+    }
+
+    const nodeVisible = n => state.labels.has(n.label) && (state.showAll || initialSet.has(n.id));
+
+    function applyFilters() {
+      if (!nodesDS) return;
+      nodesDS.update(data.nodes.map(n => ({ id: n.id, hidden: !nodeVisible(n) })));
+      edgesDS.update(data.edges.map(e => ({ id: e.id, hidden: !(state.rels.has(e.type) && nodeVisible(byId.get(e.from)) && nodeVisible(byId.get(e.to))) })));
+      const note = $("#subsetNote");
+      if (!state.showAll) { $("#subsetText").textContent = `연결이 많은 노드 ${initialSet.size}개만 표시 중 (전체 ${data.nodes.length}개)`; note.classList.add("show"); }
+      else note.classList.remove("show");
+    }
+
+    function init() {
+      const msg = $("#graphMsg");
+      if (!data.nodes.length) { msg.textContent = "그래프 데이터가 없습니다. SITE_DATA.graph.csv 에 CSV를 붙여 넣어 주세요."; return; }
+      if (typeof vis === "undefined" || !vis.Network) { msg.textContent = "그래프 라이브러리를 불러오지 못했습니다. 인터넷 연결을 확인한 뒤 새로고침해 주세요."; return; }
+      msg.remove();
+      nodesDS = new vis.DataSet(data.nodes.map(n => {
+        const c = labelInfo[n.label].color, d = degree(n.id);
+        return { id: n.id, label: n.name, title: `${labelInfo[n.label].name} · ${n.name}`, value: d + 1,
+          color: { background: c, border: c, highlight: { background: c, border: "#16181D" }, hover: { background: c, border: "#16181D" } } };
+      }));
+      edgesDS = new vis.DataSet(data.edges.map(e => ({ id: e.id, from: e.from, to: e.to, title: relName(e.type), _type: e.type })));
+      network = new vis.Network($("#graph"), { nodes: nodesDS, edges: edgesDS }, {
+        nodes: { shape: "dot", scaling: { min: 8, max: 34, label: { enabled: true, min: 12, max: 20, drawThreshold: 7 } },
+                 font: { face: "Pretendard Variable, Pretendard, sans-serif", color: "#16181D", strokeWidth: 3, strokeColor: "#ffffff" }, borderWidth: 2 },
+        edges: { color: { color: "#C9C4B8", highlight: "#16181D", hover: "#16181D" }, width: 1, selectionWidth: 2,
+                 arrows: { to: { enabled: true, scaleFactor: .45 } }, smooth: { type: "continuous" } },
+        physics: { solver: "forceAtlas2Based", forceAtlas2Based: { gravitationalConstant: -60, springLength: 110, springConstant: .06 },
+                   stabilization: { iterations: 350, fit: true } },
+        interaction: { hover: true, tooltipDelay: 120, navigationButtons: false, keyboard: false, zoomView: true, dragView: true }
+      });
+      network.once("stabilizationIterationsDone", () => network.setOptions({ physics: false }));
+      network.on("click", p => { if (p.nodes.length) showPanel(p.nodes[0]); });
+      applyFilters();
+    }
+
+    function showPanel(id) {
+      const n = byId.get(id); if (!n) return;
+      const info = labelInfo[n.label];
+      const props = Object.entries(n.props).filter(([k]) => k !== "name");
+      const nb = adj.get(id).filter(x => state.rels.has(x.e.type));
+      const groups = {};
+      nb.forEach(x => (groups[x.e.type] = groups[x.e.type] || []).push(x));
+      $("#panel").innerHTML = `
+        <span class="lbl" style="background:${esc(info.color)}">${esc(info.name)}</span>
+        <h3>${esc(n.name)}</h3>
+        <p class="sub">연결 ${adj.get(id).length}개${n.labels.length > 1 ? " · 라벨 " + esc(n.labels.join(", ")) : ""}</p>
+        <h4>속성</h4>
+        ${props.length ? `<table class="props"><tbody>${props.map(([k, v]) => `<tr><th scope="row">${esc(k)}</th><td>${esc(v)}</td></tr>`).join("")}</tbody></table>` : '<p class="panel-empty">추가 속성이 없습니다.</p>'}
+        <h4>연결된 노드</h4>
+        ${nb.length ? Object.entries(groups).map(([t, xs]) => `
+          <p class="panel-empty" style="margin:10px 0 6px;font-weight:600">${esc(relName(t))}</p>
+          <ul class="nbr-list">${xs.map(x => { const o = byId.get(x.other), oc = labelInfo[o.label].color;
+            const extra = Object.values(x.e.props).filter(Boolean).join(", ");
+            return `<li><button type="button" data-goto="${esc(o.id)}"><span class="rel">${x.dir === "out" ? "→" : "←"}</span><span class="dot" style="background:${esc(oc)}"></span><span class="nm">${esc(o.name)}${extra ? ` <small style="color:var(--muted)">(${esc(extra)})</small>` : ""}</span></button></li>`; }).join("")}</ul>`).join("")
+          : '<p class="panel-empty">표시 중인 관계 유형으로 연결된 노드가 없습니다.</p>'}`;
+    }
+
+    function focusNode(id) {
+      const n = byId.get(id); if (!n || !network) return;
+      let changed = false;
+      if (!state.labels.has(n.label)) { state.labels.add(n.label); $(`#labelFilters input[data-label="${CSS.escape(n.label)}"]`).checked = true; changed = true; }
+      if (!state.showAll && !initialSet.has(id)) { state.showAll = true; changed = true; }
+      if (changed) applyFilters();
+      network.selectNodes([id]);
+      network.focus(id, { scale: 1.4, animation: { duration: 600, easingFunction: "easeInOutQuad" } });
+      showPanel(id);
+    }
+
+    function search() {
+      const q = $("#searchInput").value.trim().toLowerCase();
+      if (!q) return;
+      const hay = n => [n.name, ...Object.values(n.props)].map(v => String(v).toLowerCase());
+      const hit = data.nodes.find(n => hay(n).some(v => v === q)) || data.nodes.find(n => hay(n).some(v => v.includes(q)));
+      if (hit) focusNode(hit.id);
+      else $("#panel").innerHTML = `<p class="panel-empty">'${esc(q)}'와 일치하는 노드가 없습니다.</p>`;
+    }
+
+    function bind() {
+      $("#labelFilters").addEventListener("change", e => { const l = e.target.dataset.label; e.target.checked ? state.labels.add(l) : state.labels.delete(l); applyFilters(); });
+      $("#relFilters").addEventListener("change", e => { const r = e.target.dataset.rel; e.target.checked ? state.rels.add(r) : state.rels.delete(r); applyFilters(); });
+      $("#searchBtn").addEventListener("click", search);
+      $("#searchInput").addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); search(); } });
+      $("#searchInput").addEventListener("change", search); // datalist에서 고른 경우
+      $("#fitBtn").addEventListener("click", () => network && network.fit({ animation: { duration: 500 } }));
+      $("#resetBtn").addEventListener("click", () => {
+        state.labels = new Set(Object.keys(labelInfo)); state.rels = new Set(relTypes);
+        document.querySelectorAll("#labelFilters input, #relFilters input").forEach(i => i.checked = true);
+        applyFilters(); network && network.fit({ animation: { duration: 500 } });
+      });
+      $("#showAllBtn").addEventListener("click", () => { state.showAll = true; applyFilters(); network && network.fit({ animation: { duration: 500 } }); });
+      $("#panel").addEventListener("click", e => { const b = e.target.closest("[data-goto]"); if (b) focusNode(b.dataset.goto); });
+    }
+
+    header(); bind();
+    return {
+      show() {
+        if (started) { if (network) network.redraw(); return; }
+        started = true;
+        if (typeof vis !== "undefined") { init(); return; }
+        // CDN 스크립트(defer)가 아직 안 끝났으면 기다림
+        const s = document.querySelector('script[src*="vis-network"]');
+        let ran = false;
+        const done = () => { if (!ran) { ran = true; init(); } };
+        if (document.readyState === "complete") setTimeout(done, 0);
+        else window.addEventListener("load", done, { once: true });
+        if (s) s.addEventListener("error", done, { once: true });
+      }
+    };
+  })();
+
+  /* ---------- 시작 ---------- */
+  renderAbout();
+  renderProjects();
+  window.addEventListener("hashchange", route);
+  route();
+})();
+</script>
+</body>
+</html>
